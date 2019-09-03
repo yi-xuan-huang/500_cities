@@ -11,4 +11,5 @@ This app is a set of interactive and responsive visualizations built with dash a
 
 Here's a snapshot of the app:
 
+![500 cities](500-cities.png)
 
