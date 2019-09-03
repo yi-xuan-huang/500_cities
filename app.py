@@ -1,9 +1,6 @@
-# Import required libraries
 import os
 import copy
 import pandas as pd
-from flask import Flask
-from flask_cors import CORS
 import dash
 from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
@@ -13,8 +10,8 @@ import plotly.graph_objs as go
 from controls import STATES, HEALTH_MEASURES
 
 
-
 app = dash.Dash(__name__)
+server = app.server
 
 df = pd.read_csv('500_Cities.csv') 
 
@@ -133,7 +130,7 @@ app.layout = html.Div(
                                 {'label': 'Unhealthy Behaviors ', 
                                  'value': 'behaviors'}
                             ],
-                            values=['prevention', 'outcomes', 'behaviors'], 
+                            value=['prevention', 'outcomes', 'behaviors'], 
                             labelStyle={'display': 'inline-block'}
                         ),
                         html.P('\n\n\n'),
@@ -243,7 +240,7 @@ app.layout = html.Div(
                                 {'label': 'Unhealthy Behaviors ', 
                                  'value': 'behaviors'}
                             ],
-                            values=['prevention', 'outcomes', 'behaviors'], 
+                            value=['prevention', 'outcomes', 'behaviors'], 
                             labelStyle={'display': 'inline-block'}
                         ),
                         dcc.Dropdown(
@@ -268,7 +265,7 @@ app.layout = html.Div(
                                 {'label': 'Unhealthy Behaviors ', 
                                  'value': 'behaviors'}
                             ],
-                            values=['prevention', 'outcomes', 'behaviors'], 
+                            value=['prevention', 'outcomes', 'behaviors'], 
                             labelStyle={'display': 'inline-block'}
                         ),
                         dcc.Dropdown(
@@ -346,7 +343,7 @@ def make_bar(selector):
 
 # first checkbox -> measure dropdown menu
 @app.callback(Output('health_measure_selector', 'options'),
-              [Input('measure_type_selector', 'values')])
+              [Input('measure_type_selector', 'value')])
 def update_measure_options1(selector):
     ls = []
     # If the checkbox for each one category is checked, dropdown menu 
@@ -609,7 +606,7 @@ def make_pie(health_measure, states, map_hover):
 
 #Checkbox 2 -> drop down menu 2
 @app.callback(Output('health_measure_selector2', 'options'),
-              [Input('measure_type_selector2', 'values'),
+              [Input('measure_type_selector2', 'value'),
                Input('health_measure_selector3', 'value')])
 def update_measure_options2(selector, yaxis):
     ls = []
@@ -645,7 +642,7 @@ def update_measure_options2(selector, yaxis):
 
 # checkbox3 + measure selector2 -> measure selector3
 @app.callback(Output('health_measure_selector3', 'options'),
-              [Input('measure_type_selector3', 'values'),
+              [Input('measure_type_selector3', 'value'),
                Input('health_measure_selector2', 'value')])
 def update_measure_options3(selector, xaxis):
     ls = []
